@@ -1,0 +1,29 @@
+#include <stdio.h>
+int main() {
+    int b, p, h[2][20], s[20], i, j, k, x;
+    printf("No. of holes: "); scanf("%d", &b);
+    printf("Hole sizes: ");
+    for (i = 0; i < b; i++) { scanf("%d", &h[0][i]); h[1][i] = h[0][i]; }
+    printf("No. of processes: "); scanf("%d", &p);
+    printf("Process sizes: ");
+    for (i = 0; i < p; i++) scanf("%d", &s[i]);
+
+    for (k = 0; k < 2; k++) {
+        printf("\n%s:\n", k ? "Worst Fit" : "Best Fit");
+        for (i = 0; i < p; i++) {
+            x = -1;
+            for (j = 0; j < b; j++)
+                if (h[k][j] >= s[i] &&
+                    (x < 0 || (k ? h[k][j] > h[k][x] : h[k][j] < h[k][x])))
+                    x = j;
+            if (x < 0)
+                 printf("P%d (%d KB): Not allocated\n", i+1, s[i]);
+            else {
+                 printf("P%d (%d KB) -> Hole %d (%d KB), leftover %d KB\n",
+                         i+1, s[i], x+1, h[k][x], h[k][x] - s[i]);
+                h[k][x] -= s[i];
+            }
+        }
+    }
+    return 0;
+}
