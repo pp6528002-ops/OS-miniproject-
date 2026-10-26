@@ -1,0 +1,14 @@
+#include <stdio.h>
+int main(){
+    int used[50]={0},n,ib,m,b,i,k; char *f[]={"Student Records","Attendance","Fee Details"};
+    printf("No. of files (max 3): "); scanf("%d",&n);
+    for(k=0;k<n;k++){
+        printf("%s - index block, no. of blocks: ",f[k]); scanf("%d %d",&ib,&m);
+        if(ib<0||ib>=50||used[ib]){ printf("%s: index block not free, not allocated\n",f[k]); continue; }
+        used[ib]=1; printf("Enter %d data blocks: ",m);
+        for(i=0;i<m;i++){ scanf("%d",&b);
+            if(b<0||b>=50||used[b]) printf("  Block %d not free, skipped\n",b);
+              else{ used[b]=1; printf("  Index[%d] -> %d\n",ib,b); } }
+      
+         }
+}
