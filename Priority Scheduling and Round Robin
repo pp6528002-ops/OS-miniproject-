@@ -1,0 +1,19 @@
+#include <stdio.h>
+int main() {
+    int n=4, bt[]={5,3,8,6}, p[]={2,1,1,2}, rem[4], wt[4]={0}, tq=2, t=0, i, pr, done;
+    for (i = 0; i < n; i++) rem[i] = bt[i];
+    for (pr = 1; pr <= 2; pr++) {
+        while (1) {
+            done = 1;
+            for (i = 0; i < n; i++) {
+                if (p[i] == pr && rem[i] > 0) {
+                    done = 0;
+                    if (rem[i] > tq) { t += tq; rem[i] -= tq; }
+                    else { t += rem[i]; wt[i] = t - bt[i]; rem[i] = 0; }
+                }
+            }
+            if (done) break;
+        }
+    }
+    for (i = 0; i < n; i++) printf("Signal %d (P%d) -> Wait: %ds | TAT: %ds\n", i + 1, p[i], wt[i], wt[i] + bt[i]);
+}
