@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <pthread.h>
+pthread_rwlock_t rw = PTHREAD_RWLOCK_INITIALIZER; 
+int score = 0;
+void* viewer (void* id) {
+    pthread_rwlock_rdlock(&rw);
+    printf("Viewer %ld score: %d\n", (long)id, score); 
+   pthread_rwlock_unlock(&rw); 
+   return NULL;
+}
+void* update (void* pts) {
+    pthread_rwlock_wrlock(&rw); score += (long)pts;
+    printf ("SCORE UPDATED: +%ld\n", (long)pts); 
+    pthread_rwlock_unlock(&rw); 
+    return NULL;
+}
+int main () {
+    pthread_t v1, u1, v2;
+    pthread_create (&v1, NULL, viewer, (void*)1); 
+    pthread_create (&u1, NULL, update, (void*)6); 
+    pthread_create (&v2, NULL, viewer, (void*)2);
+    pthread_join (v1, NULL); 
+   pthread_join(u1, NULL); 
+   pthread_join(v2, NULL); 
+   pthread_rwlock_destroy(&rw);  
+}
