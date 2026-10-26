@@ -1,0 +1,13 @@
+#include <stdio.h>
+int main() {
+    int b, p, h[20], s[20], i, j, x;
+    printf("No. of holes: "); scanf("%d", &b); printf("Hole sizes: ");
+    for (i = 0; i < b; i++) scanf("%d", &h[i]);
+    printf("No. of processes: "); scanf("%d", &p); printf("Process sizes: ");
+    for (i = 0; i < p; i++) scanf("%d", &s[i]);
+    for (i = 0; i < p; i++) { x = -1;
+        for (j = 0; j < b; j++) if (h[j] >= s[i] && (x < 0 || h[j] < h[x])) x = j;
+        if (x < 0) printf("P%d (%d KB): Not allocated\n", i+1, s[i]);
+        else { printf("P%d (%d KB) -> Hole %d (%d KB), leftover %d KB\n", i+1, s[i], x+1, h[x], h[x] - s[i]); h[x] -= s[i]; }
+    }
+}
