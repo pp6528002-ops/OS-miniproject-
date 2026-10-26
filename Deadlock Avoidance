@@ -1,0 +1,14 @@
+#include <stdio.h>
+int main(){
+int a=3, m[2]={2,2}, al[2]={1,1}, need[2], i, safe=1;
+for(i=0;i<2;i++)
+     need[i]=m[i]-al[i];
+printf("Available resources: %d\n",a);
+for(i=0;i<2;i++) 
+    if(need[i]<=a) {
+          a+=al[i];
+           printf("Transaction %d: Approved\n",i+1);}
+    else {safe=0;
+             printf("Transaction %d: Delayed\n",i+1);}
+printf(safe?"System is SAFE\n":"Deadlock may occur\n"); 
+return 0;}
