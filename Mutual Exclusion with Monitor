@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <pthread.h>
+
+pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+int balance = 1000;
+void* update (void* amt) {
+    pthread_mutex_lock(&m);
+    balance += (long)amt;
+    printf("Transaction (%+ld) | Balance: %d\n", (long)amt, balance);
+    pthread_mutex_unlock(&m);
+    return NULL;
+}
+int main () {
+    pthread_t t1, t2;
+    pthread_create(&t1, NULL, update, (void*)200);
+    pthread_create(&t2, NULL, update, (void*)-150);
+    pthread_join(t1, NULL); pthread_join(t2, NULL);
+    pthread_mutex_destroy(&m);
+} 
