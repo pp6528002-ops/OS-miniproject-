@@ -1,0 +1,13 @@
+#include <stdio.h>
+int fr[20], N, n=0, old=0, faults=0;
+void access(int p){
+    for(int k=0;k<n;k++) if(fr[k]==p){ printf("Page %d: Hit\n",p); return; }
+    faults++; printf("Page %d: Fault",p);
+    if(n<N) fr[n++]=p; else { printf(" (evict %d)",fr[old]); fr[old]=p; old=(old+1)%N; }
+    printf("  Frames:"); for(int k=0;k<n;k++) printf(" %d",fr[k]); printf("\n");
+}
+int main(){ int r,p;
+    printf("Enter number of frames: "); scanf("%d",&N);
+    printf("Enter number of page requests: "); scanf("%d",&r);
+    while(r--){ scanf("%d",&p); access(p); }
+    printf("Total faults: %d\n",faults);}
