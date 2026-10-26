@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <pthread.h>
+#define N 4
+pthread_mutex_t track[N];
+void *train(void *id) {
+    int i = (int)(long)id;
+    pthread_mutex_lock(&track[i]);
+    printf("Train %d reserved track %d\n", i, i);
+    pthread_mutex_lock(&track[(i+1)%N]);
+    printf("Train %d moving through track %d\n", i, (i+1)%N);
+    pthread_mutex_unlock(&track[i]);
+    pthread_mutex_unlock(&track[(i+1)%N]);
+    return NULL;}
+int main() {
+    pthread_t t[N];
+    for(int i=0; i<N; i++) pthread_mutex_init(&track[i], NULL);
+    for(int i=0; i<N; i++) pthread_create(&t[i], NULL, train, (void*)(long)i);
+    for(int i=0; i<N; i++) pthread_join(t[i], NULL);
+    for(int i=0; i<N; i++) pthread_mutex_destroy(&track[i]);
+    return 0;
+}            
