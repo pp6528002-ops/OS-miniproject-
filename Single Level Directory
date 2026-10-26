@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <string.h>
+int main(){
+    char f[30][20],b[20]; int n=0,i,d;
+    for(;;){
+        printf("Document name (exit to stop): "); scanf("%s",b);
+        if(!strcmp(b,"exit")) break;
+        for(d=0,i=0;i<n;i++) if(!strcmp(f[i],b)) d=1;
+        if(d) printf("Error: '%s' already exists in the directory\n",b);
+        else{ strcpy(f[n++],b); printf("Created\n"); }
+    }
+    printf("\nPlan & Tariff Directory:\n"); for(i=0;i<n;i++) printf("  %s\n",f[i]);
+}
