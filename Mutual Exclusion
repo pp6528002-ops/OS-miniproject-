@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <pthread.h>
+
+int balance = 1000;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
+void* deposit (void* arg) {
+    pthread_mutex_lock(&lock);
+    balance += 100;
+    printf("Deposited 100 | Balance: %d\n", balance);
+    pthread_mutex_unlock(&lock);
+    return NULL;
+}
+
+int main () {
+    pthread_t t [4];
+    for (long i = 0; i < 4; i++) 
+            pthread_create(&t[i], NULL, deposit, NULL);
+    for (int i = 0; i < 4; i++)
+             pthread_join(t[i], NULL);
+}
