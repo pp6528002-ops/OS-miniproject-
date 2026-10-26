@@ -1,0 +1,16 @@
+#include <stdio.h>
+int main() {
+    char *counter[] = {"Counter1", "Counter2", "Counter3"};
+    int items[] = {5, 2, 4}, i, j, t, wt = 0; char *p;
+    for (i = 0; i < 3; i++) 
+      for (j = i + 1; j < 3; j++)
+        if (items[i] > items[j]) {
+            t = items[i]; items[i] = items[j]; items[j] = t;
+            p = counter[i]; counter[i] = counter[j]; counter[j] = p;
+        }
+    printf("SJF Supermarket Checkout\n");
+    for (i = 0; i < 3; i++) {
+        printf("%-10s Items = %d waiting = %d\n", counter[i], items[i], wt);
+        wt += items[i];
+    }
+    return 0;}
