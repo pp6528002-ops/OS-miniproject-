@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <pthread.h>
+pthread_mutex_t A=PTHREAD_MUTEX_INITIALIZER,B=PTHREAD_MUTEX_INITIALIZER;
+void *t1(void *x){
+       pthread_mutex_lock(&A);
+       printf("T1: Account A locked\n");
+       sleep(1);
+      pthread_mutex_lock(&B);
+      return 0;}
+void *t2(void *x){
+          pthread_mutex_lock(&B);
+          printf("T2: Account B locked\n");
+          sleep(1);
+         pthread_mutex_lock(&A);
+         return 0;}
+int main(){
+pthread_t  x,y; 
+pthread_create(&x,0,t1,0);
+pthread_create(&y,0,t2,0);
+pthread_join(x,0);
+pthread_join(y,0);
+return 0;} 
