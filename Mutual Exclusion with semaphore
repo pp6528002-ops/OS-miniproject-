@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+
+sem_t s; int balance = 1000;
+void* update (void* amt) {
+    sem_wait(&s);
+    balance += (long)amt;
+    printf("Transaction (%+ld) | Balance: %d\n", (long)amt, balance);
+    sem_post(&s);
+    return NULL;
+}
+int main () {
+    sem_init (&s, 0, 1);
+    pthread_t t1, t2;
+    pthread_create(&t1, NULL, update, (void*)200);
+    pthread_create(&t2, NULL, update, (void*)-150);
+    pthread_join(t1, NULL); pthread_join (t2, NULL);
+    sem_destroy(&s);
+} 
+          
