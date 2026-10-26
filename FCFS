@@ -1,0 +1,13 @@
+#include <stdio.h>
+int main() {
+    char *counters[] = {"Counter1", "Counter2", "Counter3"};
+    int items[] = {1, 4, 6}, n = 3, waiting[3] = {0}, turnaround[3];
+    for (int i = 1; i < n; i++) 
+         waiting[i] = waiting[i-1] + items[i-1];
+    printf("FCFS Supermarket Checkout\n\nCounter\t\tItems\tWaiting\tTurnaround\n");
+    for (int i = 0; i < n; i++) {
+        turnaround[i] = waiting[i] + items[i];
+        printf("%-10s\t%d\t%d\t%d\n", counters[i], items[i], waiting[i], turnaround[i]);
+    }
+    return 0;
+} 
